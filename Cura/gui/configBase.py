@@ -158,6 +158,7 @@ class SettingRow():
 		self.label.Bind(wx.EVT_LEAVE_WINDOW, self.OnMouseExit)
 
 		getSettingFunc = profile.getPreference
+		print profile
 		if self.type == 'profile':
 			getSettingFunc = profile.getProfileSetting
 		if isinstance(defaultValue, types.StringTypes):

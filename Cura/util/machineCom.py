@@ -1,4 +1,5 @@
 from __future__ import absolute_import
+from __future__ import division
 
 import os
 import glob
@@ -137,8 +138,12 @@ class MachineCom(object):
 	STATE_CLOSED_WITH_ERROR = 10
 	
 	def __init__(self, port = None, baudrate = None, callbackObject = None):
+		print profile
 		if port == None:
 			port = profile.getPreference('serial_port')
+			print "Pref_port is "+port 
+		else:
+			print "PORT is "+port
 		if baudrate == None:
 			if profile.getPreference('serial_baud') == 'AUTO':
 				baudrate = 0
@@ -286,9 +291,11 @@ class MachineCom(object):
 			try:
 				self._log("Connecting to: %s" % (self._port))
 				if self._baudrate == 0:
+					self._log("Detecting Baudrate")
 					self._serial = serial.Serial(str(self._port), 115200, timeout=0.1, writeTimeout=10000)
 				else:
-					self._serial = serial.Serial(str(self._port), self._baudrate, timeout=2, writeTimeout=10000)
+					self._log("try Baudrate: "+str(self._baudrate))
+					self._serial = serial.Serial(str(self._port), self._baudrate, timeout=0.1, writeTimeout=10000)
 			except:
 				self._log("Unexpected error while connecting to serial port: %s %s" % (self._port, getExceptionString()))
 		if self._serial == None:

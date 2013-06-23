@@ -16,7 +16,7 @@ class Stk500v2(ispBase.IspBase):
 		if self.serial != None:
 			self.close()
 		try:
-			self.serial = Serial(str(port), speed, timeout=1, writeTimeout=10000)
+			self.serial = Serial(str(port), speed, timeout=5, writeTimeout=10000)
 		except SerialException as e:
 			raise ispBase.IspError("Failed to open serial port")
 		except:
@@ -112,7 +112,7 @@ class Stk500v2(ispBase.IspBase):
 		while True:
 			s = self.serial.read()
 			if len(s) < 1:
-				raise ispBase.IspError("Timeout")
+				raise ispBase.IspError("Timeout after "+str(self.serial.timeout)+"s")
 			b = struct.unpack(">B", s)[0]
 			checksum ^= b
 			#print(hex(b))

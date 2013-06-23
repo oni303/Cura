@@ -372,6 +372,8 @@ def getPreferenceColour(name):
 
 def getPreference(name):
 	if name in tempOverride:
+		print "TEMPOVERRIDE"
+		print "get pref "+ name+ " = "+unicode(tempOverride[name])
 		return unicode(tempOverride[name])
 	global globalPreferenceParser
 	if globalPreferenceParser is None:
@@ -390,12 +392,16 @@ def getPreference(name):
 		if not globalPreferenceParser.has_section('preference'):
 			globalPreferenceParser.add_section('preference')
 		globalPreferenceParser.set('preference', name, str(default))
-		#print(name + " not found in preferences, so using default: " + str(default))
+		print(name + " not found in preferences, so using default: " + str(default))
 		return default
+	if (name =='serial_port'):
+		print "get pref "+ name+ " = "+unicode(globalPreferenceParser.get('preference', name), "utf-8")
 	return unicode(globalPreferenceParser.get('preference', name), "utf-8")
 
 def putPreference(name, value):
 	#Check if we have a configuration file loaded, else load the default.
+	if (name =='serial_port'):
+		print "set "+name+"to "+value
 	global globalPreferenceParser
 	if globalPreferenceParser == None:
 		globalPreferenceParser = ConfigParser.ConfigParser()
